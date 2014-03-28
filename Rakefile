@@ -2,7 +2,7 @@ task :default => :web
 
 desc "Compile pl0.pegjs browser version"
 task :web do
-  sh "pegjs -e pl0 views/pl0.pegjs public/pl0.js"
+  sh "pegjs -e pl0 views/pl0.pegjs public/js/pl0.js"
 end
 
 desc "Remove pl0.pegjs"
@@ -12,7 +12,7 @@ end
 
 desc "Compile public/styles.scss into public/styles.css using sass"
 task :sass do
-  sh "sass  public/styles.scss public/styles.css"
+  sh "sass  public/css/styles.scss public/css/styles.css"
 end
 
 desc "tests"

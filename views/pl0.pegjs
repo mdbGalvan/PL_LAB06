@@ -31,7 +31,7 @@ block       = CONST a1:assignment a2:(COMMA a21:assignment
                                                         { return { type: 'VAR', value: [i1].concat(i2) }; } 
             / p:(PROCEDURE i:ID a:argument? SEMICOLON b:block
                                                         { return { type: 'PROCEDURE', value: i, argument: a, block: b}; })* 
-                                            s:statement { return [p].concat(s); } 
+                                            s:statement { return { procedure: p, statement: s}; } 
 
 // ***** STATEMENT
 statement   = i:ID ASSIGN e:expression                  { return {type: '=', left: i, right: e}; }

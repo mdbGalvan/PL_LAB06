@@ -41,7 +41,7 @@ pl0 = (function() {
         peg$c6 = function(i1, i2) { return { type: 'VAR', value: [i1].concat(i2) }; },
         peg$c7 = null,
         peg$c8 = function(i, a, b) { return { type: 'PROCEDURE', value: i, argument: a, block: b}; },
-        peg$c9 = function(p, s) { return [p].concat(s); },
+        peg$c9 = function(p, s) { return { procedure: p, statement: s}; },
         peg$c10 = function(i, e) { return {type: '=', left: i, right: e}; },
         peg$c11 = function(i, a) { return {type:'CALL', value: i, argument: a}; },
         peg$c12 = function(s21) { return s21; },

@@ -33,15 +33,14 @@
     </nav>
     <%= yield %>
     <footer>
-      <script src="js/pl0.js"></script>
-      <script src="js/main.js"></script>
       <script>
         var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("input"), {
           lineNumbers: true,
-          viewportMargin: Infinity,
-          mode: "javascript"
+          viewportMargin: Infinity
         });
       </script>
+      <script src="js/pl0.js"></script>
+      <script src="js/main.js"></script>
     </footer>
   </body>
 </html>

@@ -61,3 +61,12 @@ suite('PRUEBAS PARA SITUACIONES DE ERROR', function() {
 		assert.throws(function() { pl0.parse('a = 1 + 2 * 3 / 4 '); }, /Expected/);
 	});
 });
+
+suite('PRUEBAS PARA EL LOCALSTORAGE', function() {
+	test('Soporta localStorage', function() {
+		if (window.localStorage) {
+			localStorage.output = '{\n  "type": "PROGRAM",\n  "block": [\n    {\n      "type": "VAR",\n      "value": [\n        {\n          "type": "ID",\n          "value": "a"\n        },\n        {\n          "type": "ID",\n          "value": "b"\n        }\n      ]\n    }\n  ]\n}';
+			assert.deepEqual(localStorage.output, '{\n  "type": "PROGRAM",\n  "block": [\n    {\n      "type": "VAR",\n      "value": [\n        {\n          "type": "ID",\n          "value": "a"\n        },\n        {\n          "type": "ID",\n          "value": "b"\n        }\n      ]\n    }\n  ]\n}');
+		}
+	});
+});

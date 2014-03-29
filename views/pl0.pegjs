@@ -20,31 +20,41 @@
   }
 }
 
-st     = i:ID ASSIGN e:expression            
+// ***** STATEMENT
+statement     = i:ID ASSIGN e:expression            
             { return {type: '=', left: i, right: e}; }
-       / IF e:expression THEN st:st ELSE sf:st
+       / IF e:expression THEN statement:statement ELSE sf:statement
            {
              return {
                type: 'IFELSE',
                c:  e,
-               st: st,
+               statement: statement,
                sf: sf,
              };
            }
-       / IF e:expression THEN st:st    
+       / IF e:expression THEN statement:statement    
            {
              return {
                type: 'IF',
                c:  e,
-               st: st
+               statement: statement
              };
            }
-expression    = t:term   r:(ADDMINUS term)*   { return tree(t,r); }
-term   = f:factor r:(MULDIV factor)* { return tree(f,r); }
 
-factor = NUMBER
-       / ID
-       / LPAREN t:expression RPAREN   { return t; }
+// ***** CONDITION
+condition   = t:ODD e:expression                        { return {type: t, value: e}; }
+            / eL:expression t:COMPARISON eR:expression  { return {type: t, left: eL, right: eR}; }
+
+// ***** EXPRESSION
+expression  = t:term   r:(ADDMINUS term)*               { return tree(t,r); }
+
+// ***** TERM
+term        = f:factor r:(MULDIV factor)*               { return tree(f,r); }
+
+// ***** FACTOR
+factor      = NUMBER
+            / ID
+            / LPAREN t:expression RPAREN                { return t; }
 
 // ***** CONST
 _ = $[ \t\n\r]*
@@ -54,23 +64,23 @@ ADDMINUS    = _ op:[+-] _ { return op; }
 MULDIV      = _ op:[*/] _ { return op; }
 LPAREN      = _"("_
 RPAREN      = _")"_
-//DOT         = _ "." _
-//COMMA       = _ "," _
-//SEMICOLON   = _ ";" _
-//COMPARISON  = _ op:([<>=!]=/[<>]) _ { return op; }
+DOT         = _ "." _
+COMMA       = _ "," _
+SEMICOLON   = _ ";" _
+COMPARISON  = _ op:$([<>=!]'='/[<>]) _ { return op; }
 ID          = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _ { return { type: 'ID', value: id }; }
 NUMBER      = _ digits:$[0-9]+ _ { return { type: 'NUM', value: parseInt(digits, 10) }; }
 
 IF          = _ "if" _
 THEN        = _ "then" _
 ELSE        = _ "else" _
-//WHILE       = _ "while" _
-//DO          = _ "do" _
-//BEGIN       = _ "begin" _
-//END         = _ "end" _
-//CALL        = _ "call" _
-//CONST       = _ "const" _
-//VAR         = _ "var" _
-//PROCEDURE   = _ "procedure" _
-//ODD         = _ "odd" _
+WHILE       = _ "while" _
+DO          = _ "do" _
+BEGIN       = _ "begin" _
+END         = _ "end" _
+CALL        = _ "call" _
+CONST       = _ "const" _
+VAR         = _ "var" _
+PROCEDURE   = _ "procedure" _
+ODD         = _ "odd" _
 

@@ -21,17 +21,31 @@
 }
 
 // ***** PROGRAM
-program = b:block DOT                                   { return { type: 'PROGRAM', block: b }; } 
+program = b:block DOT                                { return { type: 'PROGRAM', block: b }; } 
 
 // ***** BLOCK
-block       = CONST a1:assignment a2:(COMMA a21:assignment 
+block       = c:(const_block)? v:(var_block)? p:(proc_block)* s:statement 
+                                                        {
+                                                            var block_ = [];
+                                                            if(c) block_ = block_.concat(c);
+                                                            if(v) block_ = block_.concat(v);
+                                                            if(p) block_ = block_.concat(p);
+                                                            block_ = block_.concat([s]);
+                                                            return block_;
+                                                        }
+
+// ***** CONST_BLOCK
+const_block = CONST a1:assignment a2:(COMMA a21:assignment 
                                                         { return a21; })* SEMICOLON 
                                                         { return { type: 'CONST', value: [a1].concat(a2) }; } 
-            / VAR i1:ID i2:(COMMA i21:ID                { return i21; })* SEMICOLON
+
+// ***** VAR_BLOCK
+var_block   = VAR i1:ID i2:(COMMA i21:ID                { return i21; })* SEMICOLON
                                                         { return { type: 'VAR', value: [i1].concat(i2) }; } 
-            / p:(PROCEDURE i:ID a:argument? SEMICOLON b:block
-                                                        { return { type: 'PROCEDURE', value: i, argument: a, block: b}; })* 
-                                            s:statement { return { procedure: p, statement: s}; } 
+
+// ***** PROC_BLOCK
+proc_block  = PROCEDURE i:ID a:argument? SEMICOLON b:block
+                                                        { return { type: 'PROCEDURE', value: i, argument: a, block: b}; }
 
 // ***** STATEMENT
 statement   = i:ID ASSIGN e:expression                  { return {type: '=', left: i, right: e}; }

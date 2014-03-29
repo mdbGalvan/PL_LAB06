@@ -37,64 +37,63 @@
     <li> <i>Reglas de Análisis:</i>
     <ol>
       <pre>
-      program       = $ block DOT
+      program      = $ block DOT
 
-      block         = CONST assignment (COMMA assignment)* SEMICOLON
-                    | VAR ID (COMMA ID)* SEMICOLON
-                    | (PROCEDURE ID argument? SEMICOLON block SEMICOLON)* statement
+      block        = CONST assignment (COMMA assignment)* SEMICOLON
+                  | VAR ID (COMMA ID)* SEMICOLON
+                  | (PROCEDURE ID argument? SEMICOLON block SEMICOLON)* statement
 
-      statements    = statement SEMICOLON statements 
-                    | statement 
+      statements   = statement SEMICOLON statements 
+                  | statement 
 
-      statement     = ID ASSIGN exp
-                    | CALL ID argument?
-                    | BEGIN statement ( SEMICOLON statement )* END
-                    | IF condition THEN statement ELSE statement
-                    | IF condition THEN statement
-                    | WHILE condition DO statement
+      statement   = ID ASSIGN exp
+                  | CALL ID argument?
+                  | BEGIN statement ( SEMICOLON statement )* END
+                  | IF condition THEN statement ELSE statement
+                  | IF condition THEN statement
+                  | WHILE condition DO statement
 
-      assignment    = ID ASSIGN NUMBER
-      argument      = LPAREN ID (COMMA ID)* RPAREN
+      assignment  = ID ASSIGN NUMBER
+      argument    = LPAREN ID (COMMA ID)* RPAREN
 
-      condition     = ODD expression
-                    | expression COMPARISON expression
+      condition   = ODD expression
+                  | expression COMPARISON expression
 
-      expression    = term (ADDMINUS term)*
+      expression  = term (ADDMINUS term)*
 
-      term          = factor (MULDIV factor)*
+      term        = factor (MULDIV factor)*
 
-      factor        = ID
-                    | NUMBER
-                    | LPAREN expression RPAREN
+      factor      = ID
+                  | NUMBER
+                  | LPAREN expression RPAREN
 
 
       _ = $[ \t\n\r]*
 
-      ASSIGN    = _ '=' _
-      ADDMINUS  = _ [+-] _
-      MULDIV    = _ [*/] _
-      CONDITION = _ []
-      LPAREN    = _ "(" _
-      RPAREN    = _ ")" _
-      DOT       = _ "." _
-      COMMA     = _ "," _
-      SEMICOLON = _ ";" _
-      COMPARISON= _ [<>=!]=|[<>] _
-      ID        = _ [a-zA-Z_][a-zA-Z_0-9]* _
-      NUMBER    = _ [0-9]+ _
+      ASSIGN      = _ '=' _
+      ADDMINUS    = _ [+-] _
+      MULDIV      = _ [*/] _
+      LPAREN      = _ "(" _
+      RPAREN      = _ ")" _
+      DOT         = _ "." _
+      COMMA       = _ "," _
+      SEMICOLON   = _ ";" _
+      COMPARISON  = _ [<>=!]=|[<>] _
+      ID          = _ [a-zA-Z_][a-zA-Z_0-9]* _
+      NUMBER      = _ [0-9]+ _
 
-      IF        = _ "if" _
-      THEN      = _ "then" _
-      ELSE      = _ "else" _
-      WHILE     = _ "while" _
-      DO        = _ "do" _
-      BEGIN     = _ "begin" _
-      END       = _ "end" _
-      CALL      = _ "call" _
-      CONST     = _ "const" _
-      VAR       = _ "var" _
-      PROCEDURE = _ "procedure" _
-      ODD       = _ "odd" _
+      IF          = _ "if" _
+      THEN        = _ "then" _
+      ELSE        = _ "else" _
+      WHILE       = _ "while" _
+      DO          = _ "do" _
+      BEGIN       = _ "begin" _
+      END         = _ "end" _
+      CALL        = _ "call" _
+      CONST       = _ "const" _
+      VAR         = _ "var" _
+      PROCEDURE   = _ "procedure" _
+      ODD         = _ "odd" _
       </pre>
     </ol>
     <li> <i>Expresión de arranque: </i> <br> $S = program$

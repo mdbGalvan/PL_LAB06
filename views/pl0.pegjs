@@ -35,23 +35,15 @@ block       = CONST a1:assignment a2:(COMMA a21:assignment
 
 // ***** STATEMENT
 statement   = i:ID ASSIGN e:expression                  { return {type: '=', left: i, right: e}; }
+            / CALL i:ID a:argument?                     { return {type:'CALL', value: i, argument: a}; }
+            / BEGIN s1:statement s2:(SEMICOLON s21:statement
+                                                        { return s21; })* END
+                                                        { return { type: 'BEGIN', value: [s1].concat(s2) }; }
             / IF c:condition THEN s:statement ELSE sf:statement
-                                                        {
-                                                          return {
-                                                            type: 'IFELSE',
-                                                            c:  c,
-                                                            s: s,
-                                                            sf: sf,
-                                                          };
-                                                        }
-            / IF c:condition THEN s:statement    
-                                                        {
-                                                          return {
-                                                            type: 'IF',
-                                                            c:  c,
-                                                            s: s
-                                                          };
-                                                        }
+                                                        { return { type: 'IFELSE', c: c, s: s, sf:sf, }; }
+            / IF c:condition THEN s:statement           { return { type: 'IF', c: c, s: s }; }
+            / WHILE c:condition DO s:statement          { return { type: 'WHILE', c: c, s: s }; }
+
 // ***** ASSIGNMENT
 assignment    = i:ID ASSIGN n:NUMBER                    { return {type: '=', left: i, right: n}; }
 

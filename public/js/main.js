@@ -1,6 +1,11 @@
 $(document).ready(function() {
   $('#parse').click(function() {
     try {
+      var myCodeMirror = $(".CodeMirror")[0].CodeMirror
+      var source = myCodeMirror.getValue()
+
+      out.className = "unhidden";
+
       var result = pl0.parse($('#input').val());
       $('#output').html(JSON.stringify(result,undefined,2));
     } catch (e) {
@@ -14,7 +19,8 @@ $(document).ready(function() {
     r.onload = function(e) { 
       var contents = e.target.result;
       
-      input.innerHTML = contents;
+      var myCodeMirror = $('.CodeMirror')[0].CodeMirror;
+      myCodeMirror.setValue(contents);
     }
     r.readAsText(f);
   });

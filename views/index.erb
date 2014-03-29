@@ -1,40 +1,54 @@
-<h1>Analizador de PL0 ampliado usando PEG.js</h1>
-<div id="content">
-  <p class="loadfile">
-    <input type="file" id="examples" />
-  </p>
-  <p>
-  <nav>
-  <ul>
-    <% programs.each do |p| %>
-      <li><a href="<%= p.name %>" <%=current?('/'+p.name)%>><%= p.name %></a></li>
-    <% end %>
-  </ul>
-  </nav>
-  <table>
-    <tr>
-      <td>
-        <form action="/save" method="post">
-          <textarea id="input" name="input" 
-                    autofocus cols = "40" rows = "4">
-<%= source %>
-          </textarea>
-          <br/>
-          <label for="saveas">Save as</label>
-          <input id="saveas" type="text" name="fname" 
-                 title="name" pattern="\w+" />
-        </form>
-      </td>
-      <td><button id="parse" type="button">parse</button></td>
-    </tr>
-  </table>
-  </p>
-  <div class="output">
-    <pre>
-<span id="output"></span> <!-- Output goes here! --> 
-    </pre>
-  </div>
-</div>
+<section>
+  <div id="content">
 
-<script src="js/pl0.js"></script>
-<script src="js/main.js"></script>
+    <p class="loadfile">
+      
+    </p>
+
+    <p>
+
+      <table class="loadfile">
+        <tr>
+          <td class="save">Select a file already stored:</td>
+          <td>Or write your own code:</td>
+        </tr>
+        <tr>
+          <td>
+            <nav>
+              <ul>
+                <% programs.each do |p| %>
+                  <li><a href="<%= p.name %>" <%=current?('/'+p.name)%>><%= p.name %></a></li>
+                <% end %>
+              </ul>
+            </nav>  
+            <p>
+                Or load an existing file:
+            </p>
+            <input type="file" id="examples" />
+          </td>
+          <td>
+            <form action="/save" method="post">
+              <textarea id="input" name="input" autofocus rows = "7">
+                <%= source %>
+              </textarea>
+              <br/>
+              <label for="saveas">Save the code as:</label>
+              <input id="saveas" type="text" name="fname" title="name" pattern="\w+" />
+            </form>
+          </td>
+        </tr>
+        <tr>
+          <td><button class="mylink" id="parse" type="button">parse</button></td>
+          <td></td>
+        </tr>
+      </table>
+
+    </p>
+
+    <div class="hidden" id="out">
+      <pre>
+        <span id="output"></span> <!-- Output goes here! --> 
+      </pre>
+    </div>
+  </div>
+</section>

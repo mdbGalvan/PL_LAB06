@@ -3,6 +3,10 @@ require "sinatra/reloader" if development?
 require 'data_mapper'
 require 'pp'
 
+get '/tests' do
+  erb :tests
+end
+
 # full path!
 DataMapper.setup(:default, 
                  ENV['DATABASE_URL'] || "sqlite3://#{Dir.pwd}/database.db" )
@@ -54,8 +58,4 @@ post '/save' do
   end
   pp c
   redirect '/'
-end
-
-get '/tests' do
-  erb :tests
 end

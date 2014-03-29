@@ -33,8 +33,8 @@ pl0 = (function() {
         peg$startRuleFunction  = peg$parseprogram,
 
         peg$c0 = peg$FAILED,
-        peg$c1 = [],
-        peg$c2 = function(b) { return { type: 'PROGRAM', block: b }; },
+        peg$c1 = function(b) { return { type: 'PROGRAM', block: b }; },
+        peg$c2 = [],
         peg$c3 = function(a21) { return a21; },
         peg$c4 = function(a1, a2) { return { type: 'CONST', value: [a1].concat(a2) }; },
         peg$c5 = function(i21) { return i21; },
@@ -308,17 +308,12 @@ pl0 = (function() {
       var s0, s1, s2;
 
       s0 = peg$currPos;
-      s1 = [];
-      s2 = peg$parseblock();
-      while (s2 !== peg$FAILED) {
-        s1.push(s2);
-        s2 = peg$parseblock();
-      }
+      s1 = peg$parseblock();
       if (s1 !== peg$FAILED) {
         s2 = peg$parseDOT();
         if (s2 !== peg$FAILED) {
           peg$reportedPos = s0;
-          s1 = peg$c2(s1);
+          s1 = peg$c1(s1);
           s0 = s1;
         } else {
           peg$currPos = s0;

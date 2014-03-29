@@ -21,7 +21,7 @@
 }
 
 // ***** PROGRAM
-program = b:(block)* DOT                                { return { type: 'PROGRAM', block: b }; } 
+program = b:block DOT                                   { return { type: 'PROGRAM', block: b }; } 
 
 // ***** BLOCK
 block       = CONST a1:assignment a2:(COMMA a21:assignment 

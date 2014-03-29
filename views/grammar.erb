@@ -43,9 +43,6 @@
                   | VAR ID (COMMA ID)* SEMICOLON
                   | (PROCEDURE ID argument? SEMICOLON block SEMICOLON)* statement
 
-      statements   = statement SEMICOLON statements 
-                  | statement 
-
       statement   = ID ASSIGN exp
                   | CALL ID argument?
                   | BEGIN statement ( SEMICOLON statement )* END

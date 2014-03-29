@@ -21,25 +21,28 @@
 }
 
 // ***** STATEMENT
-statement     = i:ID ASSIGN e:expression            
-            { return {type: '=', left: i, right: e}; }
-       / IF e:expression THEN statement:statement ELSE sf:statement
-           {
-             return {
-               type: 'IFELSE',
-               c:  e,
-               statement: statement,
-               sf: sf,
-             };
-           }
-       / IF e:expression THEN statement:statement    
-           {
-             return {
-               type: 'IF',
-               c:  e,
-               statement: statement
-             };
-           }
+statement   = i:ID ASSIGN e:expression                  { return {type: '=', left: i, right: e}; }
+            / IF e:expression THEN s:statement ELSE sf:statement
+                                                        {
+                                                          return {
+                                                            type: 'IFELSE',
+                                                            c:  e,
+                                                            s: statement,
+                                                            sf: sf,
+                                                          };
+                                                        }
+            / t:IF e:expression THEN s:statement    
+                                                        {
+                                                          return {
+                                                            type: t,
+                                                            c:  e,
+                                                            s: statement
+                                                          };
+                                                        }
+
+// ***** ARGUMENT
+argument      = LPAREN id1:ID id2:(COMMA id21:ID        { return id22; })*
+                                                RPAREN  { return [id1].concat(id2); } 
 
 // ***** CONDITION
 condition   = t:ODD e:expression                        { return {type: t, value: e}; }

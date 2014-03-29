@@ -1,5 +1,5 @@
 /*
- * Classic example grammar, which recognizes simple arithmetic expressions like
+ * Classic example grammar, which recognizes simple arithmetic expressionressions like
  * "2*(3+4)". The parser generated from this grammar then AST.
  */
 
@@ -20,9 +20,9 @@
   }
 }
 
-st     = i:ID ASSIGN e:exp            
+st     = i:ID ASSIGN e:expression            
             { return {type: '=', left: i, right: e}; }
-       / IF e:exp THEN st:st ELSE sf:st
+       / IF e:expression THEN st:st ELSE sf:st
            {
              return {
                type: 'IFELSE',
@@ -31,7 +31,7 @@ st     = i:ID ASSIGN e:exp
                sf: sf,
              };
            }
-       / IF e:exp THEN st:st    
+       / IF e:expression THEN st:st    
            {
              return {
                type: 'IF',
@@ -39,28 +39,38 @@ st     = i:ID ASSIGN e:exp
                st: st
              };
            }
-exp    = t:term   r:(ADD term)*   { return tree(t,r); }
-term   = f:factor r:(MUL factor)* { return tree(f,r); }
+expression    = t:term   r:(ADDMINUS term)*   { return tree(t,r); }
+term   = f:factor r:(MULDIV factor)* { return tree(f,r); }
 
 factor = NUMBER
        / ID
-       / LEFTPAR t:exp RIGHTPAR   { return t; }
+       / LPAREN t:expression RPAREN   { return t; }
 
+// ***** CONST
 _ = $[ \t\n\r]*
 
-ASSIGN   = _ op:'=' _  { return op; }
-ADD      = _ op:[+-] _ { return op; }
-MUL      = _ op:[*/] _ { return op; }
-LEFTPAR  = _"("_
-RIGHTPAR = _")"_
-IF       = _ "if" _
-THEN     = _ "then" _
-ELSE     = _ "else" _
-ID       = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _ 
-            { 
-              return { type: 'ID', value: id }; 
-            }
-NUMBER   = _ digits:$[0-9]+ _ 
-            { 
-              return { type: 'NUM', value: parseInt(digits, 10) }; 
-            }
+ASSIGN      = _ op:'=' _  { return op; }
+ADDMINUS    = _ op:[+-] _ { return op; }
+MULDIV      = _ op:[*/] _ { return op; }
+LPAREN      = _"("_
+RPAREN      = _")"_
+//DOT         = _ "." _
+//COMMA       = _ "," _
+//SEMICOLON   = _ ";" _
+//COMPARISON  = _ op:([<>=!]=/[<>]) _ { return op; }
+ID          = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _ { return { type: 'ID', value: id }; }
+NUMBER      = _ digits:$[0-9]+ _ { return { type: 'NUM', value: parseInt(digits, 10) }; }
+
+IF          = _ "if" _
+THEN        = _ "then" _
+ELSE        = _ "else" _
+//WHILE       = _ "while" _
+//DO          = _ "do" _
+//BEGIN       = _ "begin" _
+//END         = _ "end" _
+//CALL        = _ "call" _
+//CONST       = _ "const" _
+//VAR         = _ "var" _
+//PROCEDURE   = _ "procedure" _
+//ODD         = _ "odd" _
+

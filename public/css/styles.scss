@@ -124,21 +124,45 @@ nav a.current {
   display: block;
 }
 
-#out {
-  font-family: $txtarea-font;
-  color: $black;
-  vertical-align: top;
-  text-align: left;
-  font-family: arial;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 10px;
-  line-height: 20px;
-  background-color: #ffffff;
-  -moz-border-radius: 7px;
-  -webkit-border-radius: 7px;
-  border-radius: 7px;
-  border: 2px solid #333029;
+div.unhidden {
+  overflow: auto;
+  width: 95%;
+}
+
+table {
+  border-collapse: separate;
+  margin: 0 auto 0 auto;
+  &.ini {
+    width: 750px;
+    th {
+      font-family: pakenham;
+      font-size: 20px;
+      text-align: center;
+      color: white;
+      border: 0px;
+      border-radius: 7px 7px 7px 7px;
+      background-color: $brown-dark;
+      padding: 2px 0px 6px 15px;
+      margin-top: 40px;
+      margin-bottom: 23px;
+    }
+    td {
+      font-family: $txtarea-font;
+      color: $black;
+      vertical-align: top;
+      text-align: left;
+      font-family: arial;
+      font-size: 14px;
+      font-weight: bold;
+      padding: 10px;
+      line-height: 20px;
+      background-color: #ffffff;
+      -moz-border-radius: 7px;
+      -webkit-border-radius: 7px;
+      border-radius: 7px;
+      border: 2px solid #333029;
+    }
+  }
 }
 
 /* ESTILO PARA LA PRESENTACIÓN DE LA GRAMÁTICA */

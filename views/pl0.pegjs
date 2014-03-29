@@ -20,6 +20,14 @@
   }
 }
 
+// ***** PROGRAM
+program = b:block DOT                                   { return b; }
+
+// *****
+//block        = CONST assignment (COMMA assignment)* SEMICOLON
+//                  | VAR ID (COMMA ID)* SEMICOLON
+//                  | (PROCEDURE ID argument? SEMICOLON block SEMICOLON)* statement
+
 // ***** STATEMENT
 statement   = i:ID ASSIGN e:expression                  { return {type: '=', left: i, right: e}; }
             / IF e:expression THEN s:statement ELSE sf:statement
@@ -39,6 +47,8 @@ statement   = i:ID ASSIGN e:expression                  { return {type: '=', lef
                                                             s: statement
                                                           };
                                                         }
+// ***** ASSIGNMENT
+assignment    = i:ID ASSIGN n:NUMBER                    { return {type: '=', left: i, right: n}; }
 
 // ***** ARGUMENT
 argument      = LPAREN id1:ID id2:(COMMA id21:ID        { return id22; })*

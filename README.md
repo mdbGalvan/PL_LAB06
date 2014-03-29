@@ -26,6 +26,8 @@
 
 >También, cabe la opción de guardar el código introducido (por fichero o a mano). Para ello, se deberá introducir un nombre en el recuadro que se encuentra debajo de: `Save the code as` y clickear.
 
+>*Nota*: Las palabras reservadas de la gramática (if, call, ...) las acepta tanto en mayúscula como en minúscula. Aunque si se usa en mayúscula el codemirror no las reconoce, por lo que, queda mejor al ponerlas en mayúscula.
+
 ## Desarrollo
 
 >Los lenguajes y herramientas (frameworks, librerías, etc.) utilizados para el desarrollo del presente proyecto fueron:

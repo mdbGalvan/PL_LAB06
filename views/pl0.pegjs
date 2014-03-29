@@ -48,7 +48,8 @@ statement   = i:ID ASSIGN e:expression                  { return {type: '=', lef
 assignment    = i:ID ASSIGN n:NUMBER                    { return {type: '=', left: i, right: n}; }
 
 // ***** ARGUMENT
-argument      = LPAREN i1:ID i2:(COMMA i21:ID           { return i21; })*
+argument      = LPAREN i1:(ID/NUMBER) i2:(COMMA i21:(ID/NUMBER)         
+                                                        { return i21; })*
                                                 RPAREN  { return [i1].concat(i2); } 
 
 // ***** CONDITION
@@ -81,18 +82,18 @@ COMPARISON  = _ op:$([<>=!][=]/[<>]) _ { return op; }
 ID          = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _ { return { type: 'ID', value: id }; }
 NUMBER      = _ digits:$[0-9]+ _ { return { type: 'NUM', value: parseInt(digits, 10) }; }
 
-IF          = _ "if" _
-THEN        = _ "then" _
-ELSE        = _ "else" _
-WHILE       = _ "while" _
-DO          = _ "do" _
-BEGIN       = _ "begin" _
-END         = _ "end" _
-CALL        = _ "call" _
-CONST       = _ "const" _
-VAR         = _ "var" _
-PROCEDURE   = _ "procedure" _
-ODD         = _ "odd" _
+IF          = _ ("if"/"IF") _
+THEN        = _ ("then"/"THEN") _
+ELSE        = _ ("else"/"ELSE") _
+WHILE       = _ ("while"/"WHILE") _
+DO          = _ ("do"/"DO") _
+BEGIN       = _ ("begin"/"BEGIN") _
+END         = _ ("end"/"END") _
+CALL        = _ ("call"/"CALL") _
+CONST       = _ ("const"/"CONST") _
+VAR         = _ ("VAR"/"var") _
+PROCEDURE   = _ ("procedure"/"PROCEDURE") _
+ODD         = _ ("odd"/"ODD") _
 
 
 

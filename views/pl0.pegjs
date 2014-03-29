@@ -21,42 +21,47 @@
 }
 
 // ***** PROGRAM
-program = b:block DOT                                   { return b; }
+program = b:(block)* DOT                                { return { type: 'PROGRAM', block: b }; } 
 
-// *****
-//block        = CONST assignment (COMMA assignment)* SEMICOLON
-//                  | VAR ID (COMMA ID)* SEMICOLON
-//                  | (PROCEDURE ID argument? SEMICOLON block SEMICOLON)* statement
+// ***** BLOCK
+block       = CONST a1:assignment a2:(COMMA a21:assignment 
+                                                        { return a21; })* SEMICOLON 
+                                                        { return { type: 'CONST', value: [a1].concat(a2) }; } 
+            / VAR i1:ID i2:(COMMA i21:ID                { return i21; })* SEMICOLON
+                                                        { return { type: 'VAR', value: [i1].concat(i2) }; } 
+            / p:(PROCEDURE i:ID a:argument? SEMICOLON b:block
+                                                        { return { type: 'PROCEDURE', value: i, argument: a, block: b}; })* 
+                                            s:statement { return [p].concat(s); } 
 
 // ***** STATEMENT
 statement   = i:ID ASSIGN e:expression                  { return {type: '=', left: i, right: e}; }
-            / IF e:expression THEN s:statement ELSE sf:statement
+            / IF c:condition THEN s:statement ELSE sf:statement
                                                         {
                                                           return {
                                                             type: 'IFELSE',
-                                                            c:  e,
-                                                            s: statement,
+                                                            c:  c,
+                                                            s: s,
                                                             sf: sf,
                                                           };
                                                         }
-            / t:IF e:expression THEN s:statement    
+            / IF c:condition THEN s:statement    
                                                         {
                                                           return {
-                                                            type: t,
-                                                            c:  e,
-                                                            s: statement
+                                                            type: 'IF',
+                                                            c:  c,
+                                                            s: s
                                                           };
                                                         }
 // ***** ASSIGNMENT
 assignment    = i:ID ASSIGN n:NUMBER                    { return {type: '=', left: i, right: n}; }
 
 // ***** ARGUMENT
-argument      = LPAREN id1:ID id2:(COMMA id21:ID        { return id22; })*
-                                                RPAREN  { return [id1].concat(id2); } 
+argument      = LPAREN i1:ID i2:(COMMA i21:ID           { return i21; })*
+                                                RPAREN  { return [i1].concat(i2); } 
 
 // ***** CONDITION
-condition   = t:ODD e:expression                        { return {type: t, value: e}; }
-            / eL:expression t:COMPARISON eR:expression  { return {type: t, left: eL, right: eR}; }
+condition   = ODD e:expression                          { return {type: 'ODD', value: e}; }
+            / eL:expression COMPARISON eR:expression    { return {type: 'COMPARISON', left: eL, right: eR}; }
 
 // ***** EXPRESSION
 expression  = t:term   r:(ADDMINUS term)*               { return tree(t,r); }
@@ -72,15 +77,15 @@ factor      = NUMBER
 // ***** CONST
 _ = $[ \t\n\r]*
 
-ASSIGN      = _ op:'=' _  { return op; }
-ADDMINUS    = _ op:[+-] _ { return op; }
-MULDIV      = _ op:[*/] _ { return op; }
+ASSIGN      = _ op:'=' _          { return op; }
+ADDMINUS    = _ op:[+-] _         { return op; }
+MULDIV      = _ op:[*/] _         { return op; }
 LPAREN      = _"("_
 RPAREN      = _")"_
 DOT         = _ "." _
 COMMA       = _ "," _
 SEMICOLON   = _ ";" _
-COMPARISON  = _ op:$([<>=!]'='/[<>]) _ { return op; }
+COMPARISON  = _ op:$([<>=!][=]/[<>]) _ { return op; }
 ID          = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _ { return { type: 'ID', value: id }; }
 NUMBER      = _ digits:$[0-9]+ _ { return { type: 'NUM', value: parseInt(digits, 10) }; }
 
@@ -96,4 +101,6 @@ CONST       = _ "const" _
 VAR         = _ "var" _
 PROCEDURE   = _ "procedure" _
 ODD         = _ "odd" _
+
+
 

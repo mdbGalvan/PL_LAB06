@@ -24,7 +24,7 @@ suite('PRUEBAS PARA COMPROBAR LOS CONSTRUCTORES DEL LENGUAJE', function() {
 		assert.isString(output.innerHTML);
     });
     test('PROCEDURE y BEGIN', function() {
-		var tree = pl0.parse('procedure area; var b, h, a; begin a = b * h end call area (1, 2).');
+		var tree = pl0.parse('procedure area; var b, h, a; begin a = b * h end; call area (1, 2).');
 		assert.isNull(tree.block[0].argument)
 		assert.equal(tree.block[0].type, 'PROCEDURE')
 		assert.equal(tree.block[0].block[1].type, 'BEGIN')

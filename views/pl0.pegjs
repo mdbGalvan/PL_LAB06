@@ -44,7 +44,7 @@ var_block   = VAR i1:ID i2:(COMMA i21:ID                { return i21; })* SEMICO
                                                         { return { type: 'VAR', value: [i1].concat(i2) }; } 
 
 // ***** PROC_BLOCK
-proc_block  = PROCEDURE i:ID a:argument? SEMICOLON b:block
+proc_block  = PROCEDURE i:ID a:argument? SEMICOLON b:block SEMICOLON
                                                         { return { type: 'PROCEDURE', value: i, argument: a, block: b}; }
 
 // ***** STATEMENT
